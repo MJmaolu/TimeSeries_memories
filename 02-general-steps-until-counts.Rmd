@@ -1,0 +1,177 @@
+# General steps until have the count matrix {#previous-steps}
+
+In this chapter we resume all the steps needed to construct the raw count matrix. 
+Although most of the experiments we are using the data have the constructed matrix available we are going to start from the fastq files to unify the process.
+
+## Download fastq from NCBI
+
+We are using the SRAtoolkit, concretly the `fasterq-dump` tool. For the moment we are downloading the fastqs in the '/storage/evsysvir/TimeSeries' directory (all the group could access) in garnatxa.
+
+Each one of the experiments will have its own directory inside TimeSeries.
+
+Script used:
+
+```{r, eval=FALSE}
+#!/bin/bash
+#SBATCH --job-name=downloadSRA 
+#SBATCH --partition=short
+#SBATCH --ntasks=1 
+#SBATCH --cpus-per-task=32 
+#SBATCH --mem=10gb 
+#SBATCH --time=1-00:00:00 
+#SBATCH --output=downloadSRA%j.log 
+<<downloadSRA.sh
+Download with SRAtoolkit the fastqs asociated with the SRR identificators
+present in the file passed as first argument.
+    The file is in the format:
+SRR1
+SRR2
+...
+The easy way to create the file is with the SRA Run Selector from NCBI
+
+2022/02/10
+MJ
+downloadSRA.sh
+
+SRAFILE=$1
+
+while read run
+do
+    fasterq-dump --progress $run
+done < $SRAFILE
+```
+
+As is noted in the code, the easy way of create the SRA access file is with the SRA Run Selector. I have written the code to use the this file as first argument, so we only will need to put the script in the right path and use the correspondent SRA access file. It is a moderate time and resources consuming so we execute through SLURM: `sbatch downloadSRA.sh srr_acc_list.txt`
+
+## Quality Control 1
+
+The fastq quality was checked with `fastqc` tool and the reports were stored in the QC1 folder
+`srun fastqc *.fastq -o QC1` and posterior recopilation of the analysis with `multiqc .`
+
+## Cleaning the fastq
+
+The cleaning was performed with bbduk.sh with the following parameters:    
+- `ref=adapters.fa` removing contaminants (adapters present in adapters.fa)    
+- `ktrim=r` $\rightarrow$ Trim to the right reads to remove bases matching reference kmers.     
+- `k=21` $\rightarrow$ kmer length used to find contaminants      
+- `mink=11` $\rightarrow$ Look for shorter kmers at read tips down o this length when ktrimming or masking.  
+- `qtrim=r`  $\rightarrow$  Trim read ends (right end only) to remove bases with quality below `trimq`. Performed AFTER looking for kmers.      
+- `trimq=10` $\rightarrow$ Regions with average quality below this will be trimmed.   
+- `maq=5`  $\rightarrow$  (or `minavgquality`) Reads with average quality (after trimming) below this will be discarded       
+- `minlength=$minlength` $\rightarrow$  It will depend on the project. F.e., in PRJNA636173 the mean length is 50, so we need to be less restrictives than usually. 
+cd 
+## Quality Control 2
+
+The fastq quality was checked with `fastqc` tool and the reports were stored in the QC1 folder
+`srun fastqc clean/*_clean.fastq -o QC2` and posterior recopilation of the analysis with `multiqc .`
+
+## Map the clean fastq vs the reference genome
+
+This step will be performed with the HOST and with the VIRUS as reference.
+The reference used will be specify in each experiment.
+
+In overall, we will align with **STAR**, taking advantage of the possibility of have the binary output sorted by coordinate.
+
+## Quality Control 3
+
+QC of the alignments will be performed with `samstats`.
+
+## Mark duplicates
+
+My current opinion about optical/PCR duplicates is that we should remove them before perform the DEA, but there are not a golden standard so we are going to mantain the both branches: a count matrix of all the reads and a count matrix without duplicates (*_nodup*).
+
+We will use the MarkDuplicates option from th GATK4 toolkit, writing the unique and marked as duplicate reads in the same alignment file: {}_dedup.bam.
+
+## Removing duplicates
+
+A copy without duplicates will be written in the correspondent nodup directory. This process will be performed with `samtools view -hbF0x400`.
+
+## From alignments to count matrix data
+
+As far as I am not really sure that we don't should deduplicate in transcriptomics, indeed, I tend to think that we should, I am going to obtain the count matrix from both types of alignments.
+
+In general, we will use R launched in garnatxa.
+
+Example of script 'alignments2counts.R': 
+
+```{r, eval=F}
+#alignments2counts.R
+################################################################################
+# GENERATE COUNT DATA MATRIX
+# ALINEAMIENTOS SIN LOS DUPLICADOS
+################################################################################
+## 2022/03/07
+## MJ
+
+library("Rsamtools")
+library("GenomicAlignments")
+library("GenomicFeatures")
+library("BiocParallel")
+
+# Información sobre las muestras
+#csvfile <- "/Users/mariajoseolmo/Documents/2021/gradualTransitions/PlantTranscriptome/muestras_con_info.tsv"
+#sampleTable <- read.csv(csvfile, header = 1, sep="\t")
+
+# alineamientos
+bamfiles_dir <- "/storage/evsysvir/TimeSeries/PRJNA636173/alignments/nodup"
+
+bamfiles <- list.files(path = bamfiles_dir, full.names = TRUE)
+
+# Comprobamos que existen los ficheros
+file.exists(bamfiles)
+
+alignments <- BamFileList(bamfiles,
+                          yieldSize = 2000000)
+
+
+# Construyendo el gene model desde el GTF
+gtffile <- "/storage/evsysvir/TimeSeries/references/genome_hg19_index/gencode.v39lift37.annotation.gtf"
+(txdb <- makeTxDbFromGFF(gtffile,
+                         format = "gtf",
+                         circ_seqs = character()))
+
+## exones por gen
+(ebg <- exonsBy(txdb, by="gene"))
+
+register(MulticoreParam(6))
+
+## Read count
+se <- summarizeOverlaps(features = ebg,
+                        reads = alignments,
+                        mode = "Union",
+                        singleEnd=FALSE,
+                        ignore.strand = TRUE,
+                        fragments=TRUE)
+
+save(se, file="rawGeneCounts_PRJNA636173_nodup.rda")
+```
+
+And the sh script for launch the process with slurm:
+
+```{bash, eval=F}
+#!/bin/bash 
+#lanch_matCounts_nodup.sh
+#SBATCH --job-name=matCounts_nodup 
+#SBATCH --partition=long
+#SBATCH --ntasks=1 
+#SBATCH --cpus-per-task=32 
+#SBATCH --mem=60gb 
+#SBATCH --time=7-00:00:00 
+#SBATCH --output=matCounts_nodup_%j.log
+
+# Cargamos el módulo de R
+module load R/3.6.1
+
+# Tiempo 0
+start=`date +%s`
+
+# Ejecutamos el .R
+R < alignments2counts.R --no-save
+
+echo "SE generado y guardado" 
+
+# Tiempo total de ejecución
+end=`date +%s`
+runtime=$((end-start))
+echo "Total time: $runtime s"
+```
