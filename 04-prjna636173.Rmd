@@ -8,7 +8,8 @@
 
 - **Overall design:** We infected triplicated human lung epithelial cells (Calu-3) at a multiplicity of infection (MOI) for SARS-CoV-2 of 2, with comparison to triplicated uninfected controls. One hour post infection, the inoculum was removed and the clock was set to zero. We extracted and sequenced poly-A enriched RNA at 0, 1, 2, 3, 6 and 12 hours post infection (hpi) using an Illumina HiSeq 2500 with 2 x 50 bp chemistry to a minimum of 21.9 million clusters per replicate. Paired-end sequencing reads were mapped to the human reference transcriptome (GRCh37.67)
 
-## Time series aspects
+## Some experiment info
+### Time series aspects
 
 - Host type: human lung epithelial cells (Calu-3)     
 - Sample points:  0, 1, 2, 3, 6 and 12 hours post infection (hpi)    
@@ -16,11 +17,51 @@
 - Biological replicates: 3    
 - Total samples: 36    
 
-## RNA-seq considerations
+### RNA sequencing considerations
 
 - Sequence mean length: 50 bp      
 - Illumina HiSeq 2500      
 - Paired-end      
+
+### Samples
+
+Samples analyzed:
+
+SRR11884692
+SRR11884693
+SRR11884694
+SRR11884695
+SRR11884696
+SRR11884697
+SRR11884698
+SRR11884699
+SRR11884700
+SRR11884701
+SRR11884702
+SRR11884703
+SRR11884704
+SRR11884705
+SRR11884706
+SRR11884707
+SRR11884708
+SRR11884709
+SRR11884710
+SRR11884711
+SRR11884712
+SRR11884713
+SRR11884714
+SRR11884715
+SRR11884716
+SRR11884717
+SRR11884718
+SRR11884719
+SRR11884720
+SRR11884721
+SRR11884723
+SRR11884724
+SRR11884725
+SRR11884726
+SRR11884727
 
 ## Preprocesing considerations
 
@@ -81,7 +122,7 @@ do
 done < $samples
 ```
 
-### Alignment vs complete genome with STAR
+## Alignment vs complete genome with STAR
 
 We are going to align versus the **complete genome**, not the transcriptome (option used in the original paper). The reason is that we want to do allways the same process and for _A. thaliana_ there are not a good transcriptome available (for _C. elegans_ I don't know yet).
 
@@ -200,49 +241,87 @@ done < $samples
 
 ```
 
+---
 
-## Samples
+We performed the next steps in R
 
-Samples analyzed:
+The project is named as 'prjna636173.Rproj'. In this project  
 
-SRR11884692
-SRR11884693
-SRR11884694
-SRR11884695
-SRR11884696
-SRR11884697
-SRR11884698
-SRR11884699
-SRR11884700
-SRR11884701
-SRR11884702
-SRR11884703
-SRR11884704
-SRR11884705
-SRR11884706
-SRR11884707
-SRR11884708
-SRR11884709
-SRR11884710
-SRR11884711
-SRR11884712
-SRR11884713
-SRR11884714
-SRR11884715
-SRR11884716
-SRR11884717
-SRR11884718
-SRR11884719
-SRR11884720
-SRR11884721
-SRR11884723
-SRR11884724
-SRR11884725
-SRR11884726
-SRR11884727
+---
 
-## DEG analysis
+
+## From read counts matrix
 
 ### Exploration of samples
+
+- Dimensions of raw counts matrix: 63357 x 36   
+
+Filter genes conditions: ```rowSums(edgeR::cpm(cts)>1) >= 2```
+
+- Dimensions of filtered raw counts: 16120 x 36
+
+![](images/readCounts_byGene_rawVsFiltered.png)
+
+### Visualization of different transformations of the filtered raw counts
+
+_Bottom methods (variance stabilizing method and regularized-logarithm transformation) are transformations for count data that stabilize the variance across the means. The transformed-data becomes approximately homoskedastic, and can be used directly for computing distances between samples and making PCA plots_
+
+![](images/transformationCountsFiltered.png)
+![](images/transformationCountsFiltered_boxplot.png)
+
+### Samples distances
+
+We show redundant but maybe useful information to discuss which methods we prefer. 
+
+#### Heatmap
+
+- <b> DISTANCES </b>
+
+!["Using the distance function on the vst-transformed data"](images/heatmap_sampleDist_vst.png)
+
+
+!["Using the distance function on the rlog-transformed data"](images/heatmap_sampleDist_Rlog.png)
+
+
+- <b> CORRELATIONS </b> (_Spearman method_)
+
+!["Using the corr function on the vst-transformed data"](images/heatmap_sampleCorr_Vst.png)
+
+!["Using the corr function on the rlog-transformed data"](images/heatmap_sampleCorr_Rlog.png)
+
+#### PCA of samples
+
+!["PCA on vst-transformed data](images/pca_samples_vst.png)
+
+!["PCA on rlog-transformed data](images/pca_samples_rlog.png)
+
+
+## DEG analysis 
+
+p.adj.cutoff = 0.05
+lfoldchange.cutoff = 1
+
+### WALD test
+
+<b> Results </b>
+
+__ Without been restrictive (alpha = 0.1, and no limit to the logfoldchange)_
+
+> out of 16120 with nonzero total read count
+> adjusted p-value < 0.1
+> LFC > 0 (up)       : 3611, 22%
+> LFC < 0 (down)     : 3867, 24%
+> outliers [1]       : 0, 0%
+> low counts [2]     : 0, 0%
+> (mean count < 3)
+
+<b> VOLCANO PLOTS </b>
+
+Colored as significative genes if padj < 0.05 and |log2FoldChange| >= 1.
+
+!["DEA: For each time point was performed a Wald test to identify the DE genes between infected and control. Colored in red: DOWN regulated genes and in blue the UP regulated (padj < 0.05 & |log2FoldChange| >= 1 )"](images/volcanoPlots_wald_panel_thres0.05padj1lfc.png)
+ 
+### LRT test
+
 
 
