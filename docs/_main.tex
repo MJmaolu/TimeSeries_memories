@@ -396,16 +396,16 @@ And the sh script for launch the process with slurm:
 \hypertarget{deg-analysis}{%
 \chapter{DEG analysis}\label{deg-analysis}}
 
-We assume that the genes acting as early warnings are acting differentialy with repect the control in some point. So, we will do a DEG analysis to reduce the dimensionality of the matrix and have only those genes that can be informative.
+We assume that the genes acting as early warnings are acting differentialy with repect the control in some point. So, we will do a DEG analysis to reduce the dimension of the matrix and have only those genes that can be informative.
 
-To simplify, we only have two groups: infected and control (not infected).We can do the selection of the most variant genes (infected:control) with two methods:
+To simplify, we only have two groups: infected and control (not infected). We can do the selection of the most variant genes (infected:control) with two methods:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi})}
 \item
-  Selecting at each time point the genes that are differently expressed: \textbf{Wald Test for GLM coeffincients}. For next steps (search EWs), working with the join set, i.e., all the genes that have been selected as DE in any timepoint.
+  Selecting at each time point the genes that are differently expressed (DE): \textbf{Wald Test for GLM coeffincients}. For next steps (search EWs), working with the join set, i.e., all the genes that have been selected as DE in any time-point.
 \item
-  Select the genes that act differentially across the timepoints: \textbf{Likelihood Ratio Test (LRT) for GLMs}. That genes which expression profiles across the time differ from the profiles in the control group.
+  Select the genes that act differentially across the time´-points: \textbf{Likelihood Ratio Test (LRT) for GLMs}. That genes which expression profiles across the time differ from the profiles in the control group.
 \end{enumerate}
 
 The idea is that most of them will overlap, later on I may decide to use only one of the methods, the data will tell.
@@ -413,7 +413,7 @@ The idea is that most of them will overlap, later on I may decide to use only on
 \hypertarget{how-is-organized-the-code}{%
 \section{How is organized the code}\label{how-is-organized-the-code}}
 
-For each experiment selected we will generate a unique Rproject named as identificatorOfTheProject.Rproj. In this directory we will store (aproximate structure):
+For each experiment selected we will generate a unique Rproject named as identificatorOfTheProject.Rproj. In this directory we will store (approximate structure):
 
 /data\\
 /results\\
@@ -833,6 +833,16 @@ outliers {[}1{]} : 0, 0\%
 low counts {[}2{]} : 0, 0\%
 (mean count \textless{} 3)
 \end{quote}
+
+VOLCANO PLOTS
+
+Colored as significative genes if padj \textless{} 0.05 and \textbar log2FoldChange\textbar{} \textgreater= 1.
+
+\begin{figure}
+\centering
+\includegraphics{images/volcanoPlots_wald_panel_thres0.05padj1lfc.png}
+\caption{``DEA: For each time point was performed a Wald test to identify the DE genes between infected and control. Colored in red: DOWN regulated genes and in blue the UP regulated (padj \textless{} 0.05 \& \textbar log2FoldChange\textbar{} \textgreater= 1 )''}
+\end{figure}
 
 \hypertarget{lrt-test}{%
 \subsection{LRT test}\label{lrt-test}}

@@ -238,16 +238,16 @@ div.csl-indent {
             <section class="normal" id="section-">
 <div id="deg-analysis" class="section level1 hasAnchor" number="4">
 <h1><span class="header-section-number">Chapter 4</span> DEG analysis<a href="deg-analysis.html#deg-analysis" class="anchor-section" aria-label="Anchor link to header"></a></h1>
-<p>We assume that the genes acting as early warnings are acting differentialy with repect the control in some point. So, we will do a DEG analysis to reduce the dimensionality of the matrix and have only those genes that can be informative.</p>
-<p>To simplify, we only have two groups: infected and control (not infected).We can do the selection of the most variant genes (infected:control) with two methods:</p>
+<p>We assume that the genes acting as early warnings are acting differentialy with repect the control in some point. So, we will do a DEG analysis to reduce the dimension of the matrix and have only those genes that can be informative.</p>
+<p>To simplify, we only have two groups: infected and control (not infected). We can do the selection of the most variant genes (infected:control) with two methods:</p>
 <ol style="list-style-type: decimal">
-<li><p>Selecting at each time point the genes that are differently expressed: <strong>Wald Test for GLM coeffincients</strong>. For next steps (search EWs), working with the join set, i.e., all the genes that have been selected as DE in any timepoint.</p></li>
-<li><p>Select the genes that act differentially across the timepoints: <strong>Likelihood Ratio Test (LRT) for GLMs</strong>. That genes which expression profiles across the time differ from the profiles in the control group.</p></li>
+<li><p>Selecting at each time point the genes that are differently expressed (DE): <strong>Wald Test for GLM coeffincients</strong>. For next steps (search EWs), working with the join set, i.e., all the genes that have been selected as DE in any time-point.</p></li>
+<li><p>Select the genes that act differentially across the time´-points: <strong>Likelihood Ratio Test (LRT) for GLMs</strong>. That genes which expression profiles across the time differ from the profiles in the control group.</p></li>
 </ol>
 <p>The idea is that most of them will overlap, later on I may decide to use only one of the methods, the data will tell.</p>
 <div id="how-is-organized-the-code" class="section level2 hasAnchor" number="4.1">
 <h2><span class="header-section-number">4.1</span> How is organized the code<a href="deg-analysis.html#how-is-organized-the-code" class="anchor-section" aria-label="Anchor link to header"></a></h2>
-<p>For each experiment selected we will generate a unique Rproject named as identificatorOfTheProject.Rproj. In this directory we will store (aproximate structure):</p>
+<p>For each experiment selected we will generate a unique Rproject named as identificatorOfTheProject.Rproj. In this directory we will store (approximate structure):</p>
 <div class="line-block">/data<br />
 /results<br />
 /scripts<br />
