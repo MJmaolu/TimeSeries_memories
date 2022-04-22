@@ -307,17 +307,14 @@ lfoldchange.cutoff = 1
 
 __ Without been restrictive (alpha = 0.1, and no limit to the logfoldchange)_
 
-> out of 16120 with nonzero total read count
-> adjusted p-value < 0.1
-> LFC > 0 (up)       : 3611, 22%
-> LFC < 0 (down)     : 3867, 24%
-> outliers [1]       : 0, 0%
-> low counts [2]     : 0, 0%
-> (mean count < 3)
+```{r, }
+
+```
+
 
 <b> VOLCANO PLOTS </b>
 
-Colored as significative genes if padj < 0.05 and |log2FoldChange| >= 1.
+Colored as DE genes if its padj < 0.05 and |log2FoldChange| >= 1.
 
 !["DEA: For each time point was performed a Wald test to identify the DE genes between infected and control. Colored in red: DOWN regulated genes and in blue the UP regulated (padj < 0.05 & |log2FoldChange| >= 1 )"](images/volcanoPlots_wald_panel_thres0.05padj1lfc.png)
  
