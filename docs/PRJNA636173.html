@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 PRJNA636173 | Time Series Memories (always in construction)</title>
+  <meta name="description" content="Analysis of gene expression data in time series of viral infections. Tracking of the selected experiments and the processes followed from data download to DEG. One the differentialy expressed genes have been selected we will beging the study of those genes that can serve as early warnings. The first method we use use is based on Dynamical Network Biomarkers." />
+  <meta name="generator" content="bookdown 0.24 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 PRJNA636173 | Time Series Memories (always in construction)" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Analysis of gene expression data in time series of viral infections. Tracking of the selected experiments and the processes followed from data download to DEG. One the differentialy expressed genes have been selected we will beging the study of those genes that can serve as early warnings. The first method we use use is based on Dynamical Network Biomarkers." />
+  <meta name="github-repo" content="rstudio/bookdown-demo" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 PRJNA636173 | Time Series Memories (always in construction)" />
+  
+  <meta name="twitter:description" content="Analysis of gene expression data in time series of viral infections. Tracking of the selected experiments and the processes followed from data download to DEG. One the differentialy expressed genes have been selected we will beging the study of those genes that can serve as early warnings. The first method we use use is based on Dynamical Network Biomarkers." />
+  
+
+<meta name="author" content="María José Olmo Uceda" />
+
+
+<meta name="date" content="2022-04-22" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="deg-analysis.html"/>
+<link rel="next" href="references.html"/>
+<script src="libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fuse.js@6.4.6/dist/fuse.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+<link href="libs/anchor-sections-1.1.0/anchor-sections.css" rel="stylesheet" />
+<link href="libs/anchor-sections-1.1.0/anchor-sections-hash.css" rel="stylesheet" />
+<script src="libs/anchor-sections-1.1.0/anchor-sections.js"></script>
+
+
+<style type="text/css">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<style type="text/css">
+/* Used with Pandoc 2.11+ new --citeproc when CSL is used */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+}
+.hanging div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Time Series Memories (always in construction)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Introduction<span></span></a>
+<ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#general-workflow"><i class="fa fa-check"></i><b>1.1</b> General workflow<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="experiments.html"><a href="experiments.html"><i class="fa fa-check"></i><b>2</b> Experiments selected<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1" data-path="experiments.html"><a href="experiments.html#public-data"><i class="fa fa-check"></i><b>2.1</b> Public data<span></span></a>
+<ul>
+<li class="chapter" data-level="2.1.1" data-path="experiments.html"><a href="experiments.html#host-human"><i class="fa fa-check"></i><b>2.1.1</b> Host: Human<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="2.2" data-path="experiments.html"><a href="experiments.html#laboratory-data"><i class="fa fa-check"></i><b>2.2</b> Laboratory data<span></span></a>
+<ul>
+<li class="chapter" data-level="2.2.1" data-path="experiments.html"><a href="experiments.html#host-c.-elegans"><i class="fa fa-check"></i><b>2.2.1</b> Host: C. elegans<span></span></a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="previous-steps.html"><a href="previous-steps.html"><i class="fa fa-check"></i><b>3</b> General steps until have the count matrix<span></span></a>
+<ul>
+<li class="chapter" data-level="3.1" data-path="previous-steps.html"><a href="previous-steps.html#download-fastq-from-ncbi"><i class="fa fa-check"></i><b>3.1</b> Download fastq from NCBI<span></span></a></li>
+<li class="chapter" data-level="3.2" data-path="previous-steps.html"><a href="previous-steps.html#quality-control-1"><i class="fa fa-check"></i><b>3.2</b> Quality Control 1<span></span></a></li>
+<li class="chapter" data-level="3.3" data-path="previous-steps.html"><a href="previous-steps.html#cleaning-the-fastq"><i class="fa fa-check"></i><b>3.3</b> Cleaning the fastq<span></span></a></li>
+<li class="chapter" data-level="3.4" data-path="previous-steps.html"><a href="previous-steps.html#map-the-clean-fastq-vs-the-reference-genome"><i class="fa fa-check"></i><b>3.4</b> Map the clean fastq vs the reference genome<span></span></a></li>
+<li class="chapter" data-level="3.5" data-path="previous-steps.html"><a href="previous-steps.html#quality-control-3"><i class="fa fa-check"></i><b>3.5</b> Quality Control 3<span></span></a></li>
+<li class="chapter" data-level="3.6" data-path="previous-steps.html"><a href="previous-steps.html#mark-duplicates"><i class="fa fa-check"></i><b>3.6</b> Mark duplicates<span></span></a></li>
+<li class="chapter" data-level="3.7" data-path="previous-steps.html"><a href="previous-steps.html#removing-duplicates"><i class="fa fa-check"></i><b>3.7</b> Removing duplicates<span></span></a></li>
+<li class="chapter" data-level="3.8" data-path="previous-steps.html"><a href="previous-steps.html#from-alignments-to-count-matrix-data"><i class="fa fa-check"></i><b>3.8</b> From alignments to count matrix data<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="deg-analysis.html"><a href="deg-analysis.html"><i class="fa fa-check"></i><b>4</b> DEG analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="4.1" data-path="deg-analysis.html"><a href="deg-analysis.html#how-is-organized-the-code"><i class="fa fa-check"></i><b>4.1</b> How is organized the code<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="PRJNA636173.html"><a href="PRJNA636173.html"><i class="fa fa-check"></i><b>5</b> PRJNA636173<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1" data-path="PRJNA636173.html"><a href="PRJNA636173.html#some-experiment-info"><i class="fa fa-check"></i><b>5.1</b> Some experiment info<span></span></a>
+<ul>
+<li class="chapter" data-level="5.1.1" data-path="PRJNA636173.html"><a href="PRJNA636173.html#time-series-aspects"><i class="fa fa-check"></i><b>5.1.1</b> Time series aspects<span></span></a></li>
+<li class="chapter" data-level="5.1.2" data-path="PRJNA636173.html"><a href="PRJNA636173.html#rna-sequencing-considerations"><i class="fa fa-check"></i><b>5.1.2</b> RNA sequencing considerations<span></span></a></li>
+<li class="chapter" data-level="5.1.3" data-path="PRJNA636173.html"><a href="PRJNA636173.html#samples"><i class="fa fa-check"></i><b>5.1.3</b> Samples<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.2" data-path="PRJNA636173.html"><a href="PRJNA636173.html#preprocesing-considerations"><i class="fa fa-check"></i><b>5.2</b> Preprocesing considerations<span></span></a>
+<ul>
+<li class="chapter" data-level="5.2.1" data-path="PRJNA636173.html"><a href="PRJNA636173.html#cleaning-process"><i class="fa fa-check"></i><b>5.2.1</b> Cleaning process<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="PRJNA636173.html"><a href="PRJNA636173.html#alignment-vs-complete-genome-with-star"><i class="fa fa-check"></i><b>5.3</b> Alignment vs complete genome with STAR<span></span></a></li>
+<li class="chapter" data-level="5.4" data-path="PRJNA636173.html"><a href="PRJNA636173.html#from-read-counts-matrix"><i class="fa fa-check"></i><b>5.4</b> From read counts matrix<span></span></a>
+<ul>
+<li class="chapter" data-level="5.4.1" data-path="PRJNA636173.html"><a href="PRJNA636173.html#exploration-of-samples"><i class="fa fa-check"></i><b>5.4.1</b> Exploration of samples<span></span></a></li>
+<li class="chapter" data-level="5.4.2" data-path="PRJNA636173.html"><a href="PRJNA636173.html#visualization-of-different-transformations-of-the-filtered-raw-counts"><i class="fa fa-check"></i><b>5.4.2</b> Visualization of different transformations of the filtered raw counts<span></span></a></li>
+<li class="chapter" data-level="5.4.3" data-path="PRJNA636173.html"><a href="PRJNA636173.html#samples-distances"><i class="fa fa-check"></i><b>5.4.3</b> Samples distances<span></span></a></li>
+</ul></li>
+<li class="chapter" data-level="5.5" data-path="PRJNA636173.html"><a href="PRJNA636173.html#deg-analysis-1"><i class="fa fa-check"></i><b>5.5</b> DEG analysis<span></span></a>
+<ul>
+<li class="chapter" data-level="5.5.1" data-path="PRJNA636173.html"><a href="PRJNA636173.html#wald-test"><i class="fa fa-check"></i><b>5.5.1</b> WALD test<span></span></a></li>
+<li class="chapter" data-level="5.5.2" data-path="PRJNA636173.html"><a href="PRJNA636173.html#lrt-test"><i class="fa fa-check"></i><b>5.5.2</b> LRT test<span></span></a></li>
+</ul></li>
+</ul></li>
+<li><a href="references.html#references">References<span></span></a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Time Series Memories (always in construction)</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="PRJNA636173" class="section level1 hasAnchor" number="5">
+<h1><span class="header-section-number">Chapter 5</span> PRJNA636173<a href="PRJNA636173.html#PRJNA636173" class="anchor-section" aria-label="Anchor link to header"></a></h1>
+<ul>
+<li><p><strong>Title:</strong> Experimental and natural evidence of <strong>SARS-CoV-2</strong> infection-induced activation of type I interferon responses (<strong>human</strong>)</p></li>
+<li><p><strong>Paper:</strong> <span class="citation">(<a href="#ref-Banerjee2021" role="doc-biblioref">Banerjee et al. 2021</a>)</span></p></li>
+<li><p><strong>NCBI project link:</strong> <a href="https://www.ncbi.nlm.nih.gov/bioproject/PRJNA636173" class="uri">https://www.ncbi.nlm.nih.gov/bioproject/PRJNA636173</a></p></li>
+<li><p><strong>Overall design:</strong> We infected triplicated human lung epithelial cells (Calu-3) at a multiplicity of infection (MOI) for SARS-CoV-2 of 2, with comparison to triplicated uninfected controls. One hour post infection, the inoculum was removed and the clock was set to zero. We extracted and sequenced poly-A enriched RNA at 0, 1, 2, 3, 6 and 12 hours post infection (hpi) using an Illumina HiSeq 2500 with 2 x 50 bp chemistry to a minimum of 21.9 million clusters per replicate. Paired-end sequencing reads were mapped to the human reference transcriptome (GRCh37.67)</p></li>
+</ul>
+<div id="some-experiment-info" class="section level2 hasAnchor" number="5.1">
+<h2><span class="header-section-number">5.1</span> Some experiment info<a href="PRJNA636173.html#some-experiment-info" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="time-series-aspects" class="section level3 hasAnchor" number="5.1.1">
+<h3><span class="header-section-number">5.1.1</span> Time series aspects<a href="PRJNA636173.html#time-series-aspects" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Host type: human lung epithelial cells (Calu-3)<br />
+</li>
+<li>Sample points: 0, 1, 2, 3, 6 and 12 hours post infection (hpi)<br />
+</li>
+<li>Groups: infected &amp; uninfected<br />
+</li>
+<li>Biological replicates: 3<br />
+</li>
+<li>Total samples: 36</li>
+</ul>
+</div>
+<div id="rna-sequencing-considerations" class="section level3 hasAnchor" number="5.1.2">
+<h3><span class="header-section-number">5.1.2</span> RNA sequencing considerations<a href="PRJNA636173.html#rna-sequencing-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Sequence mean length: 50 bp<br />
+</li>
+<li>Illumina HiSeq 2500<br />
+</li>
+<li>Paired-end</li>
+</ul>
+</div>
+<div id="samples" class="section level3 hasAnchor" number="5.1.3">
+<h3><span class="header-section-number">5.1.3</span> Samples<a href="PRJNA636173.html#samples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Samples analyzed:</p>
+<p>SRR11884692
+SRR11884693
+SRR11884694
+SRR11884695
+SRR11884696
+SRR11884697
+SRR11884698
+SRR11884699
+SRR11884700
+SRR11884701
+SRR11884702
+SRR11884703
+SRR11884704
+SRR11884705
+SRR11884706
+SRR11884707
+SRR11884708
+SRR11884709
+SRR11884710
+SRR11884711
+SRR11884712
+SRR11884713
+SRR11884714
+SRR11884715
+SRR11884716
+SRR11884717
+SRR11884718
+SRR11884719
+SRR11884720
+SRR11884721
+SRR11884723
+SRR11884724
+SRR11884725
+SRR11884726
+SRR11884727</p>
+</div>
+</div>
+<div id="preprocesing-considerations" class="section level2 hasAnchor" number="5.2">
+<h2><span class="header-section-number">5.2</span> Preprocesing considerations<a href="PRJNA636173.html#preprocesing-considerations" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<ul>
+<li><p>Host: Human</p>
+<ul>
+<li>Reference used: hg19 (GRCh37) genome assembly</li>
+</ul></li>
+</ul>
+<p><code>wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_39/GRCh37_mapping/GRCh37.primary_assembly.genome.fa.gz</code></p>
+<p><code>wget https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_39/GRCh37_mapping/gencode.v39lift37.annotation.gtf.gz</code></p>
+<div id="cleaning-process" class="section level3 hasAnchor" number="5.2.1">
+<h3><span class="header-section-number">5.2.1</span> Cleaning process<a href="PRJNA636173.html#cleaning-process" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>Ran in SLURM. The <code>minlength</code> set for this experiment was 40.</p>
+<p><code>sbatch clean_wbbduk.sh SRR_listAcc_PRJNA636173.txt</code></p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb4-1"><a href="PRJNA636173.html#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb4-2"><a href="PRJNA636173.html#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="co">#clean_wbbduk.sh</span></span>
+<span id="cb4-3"><a href="PRJNA636173.html#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=clean </span></span>
+<span id="cb4-4"><a href="PRJNA636173.html#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=short</span></span>
+<span id="cb4-5"><a href="PRJNA636173.html#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1 </span></span>
+<span id="cb4-6"><a href="PRJNA636173.html#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=32 </span></span>
+<span id="cb4-7"><a href="PRJNA636173.html#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=30gb </span></span>
+<span id="cb4-8"><a href="PRJNA636173.html#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=1-00:00:00 </span></span>
+<span id="cb4-9"><a href="PRJNA636173.html#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=clean_%j.log </span></span>
+<span id="cb4-10"><a href="PRJNA636173.html#cb4-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-11"><a href="PRJNA636173.html#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;&lt; &quot;clean_wbbduk.sh&quot;</span></span>
+<span id="cb4-12"><a href="PRJNA636173.html#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="st">For each sample in fq_dir:</span></span>
+<span id="cb4-13"><a href="PRJNA636173.html#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="st">- Clean the fq.gz with bbduck.sh</span></span>
+<span id="cb4-14"><a href="PRJNA636173.html#cb4-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-15"><a href="PRJNA636173.html#cb4-15" aria-hidden="true" tabindex="-1"></a><span class="st">MJ</span></span>
+<span id="cb4-16"><a href="PRJNA636173.html#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="st">2022/02/21</span></span>
+<span id="cb4-17"><a href="PRJNA636173.html#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="op">clean_wbbduk.sh</span></span>
+<span id="cb4-18"><a href="PRJNA636173.html#cb4-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-19"><a href="PRJNA636173.html#cb4-19" aria-hidden="true" tabindex="-1"></a><span class="co"># paths</span></span>
+<span id="cb4-20"><a href="PRJNA636173.html#cb4-20" aria-hidden="true" tabindex="-1"></a><span class="va">samples</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb4-21"><a href="PRJNA636173.html#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="va">adapters</span><span class="op">=</span><span class="st">&quot;/storage/evsysvir/TimeSeries/references/adapters.fa&quot;</span></span>
+<span id="cb4-22"><a href="PRJNA636173.html#cb4-22" aria-hidden="true" tabindex="-1"></a><span class="va">fq_dir</span><span class="op">=</span><span class="st">&quot;/storage/evsysvir/TimeSeries/PRJNA636173/raw_data&quot;</span></span>
+<span id="cb4-23"><a href="PRJNA636173.html#cb4-23" aria-hidden="true" tabindex="-1"></a><span class="va">clean_dir</span><span class="op">=</span><span class="st">&quot;/storage/evsysvir/TimeSeries/PRJNA636173/clean_data&quot;</span></span>
+<span id="cb4-24"><a href="PRJNA636173.html#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="va">qc2_dir</span><span class="op">=</span><span class="st">&quot;/storage/evsysvir/TimeSeries/PRJNA636173/QC2&quot;</span></span>
+<span id="cb4-25"><a href="PRJNA636173.html#cb4-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-26"><a href="PRJNA636173.html#cb4-26" aria-hidden="true" tabindex="-1"></a><span class="va">minlength</span><span class="op">=</span>40</span>
+<span id="cb4-27"><a href="PRJNA636173.html#cb4-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-28"><a href="PRJNA636173.html#cb4-28" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">sample</span></span>
+<span id="cb4-29"><a href="PRJNA636173.html#cb4-29" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb4-30"><a href="PRJNA636173.html#cb4-30" aria-hidden="true" tabindex="-1"></a>        <span class="bu">echo</span> <span class="st">&quot;****************** PROCESSING </span><span class="va">$sample</span><span class="st"> ******************&quot;</span></span>
+<span id="cb4-31"><a href="PRJNA636173.html#cb4-31" aria-hidden="true" tabindex="-1"></a>        <span class="ex">bbduk.sh</span> <span class="dt">\</span></span>
+<span id="cb4-32"><a href="PRJNA636173.html#cb4-32" aria-hidden="true" tabindex="-1"></a>        in1=<span class="va">${fq_dir}</span>/<span class="va">${sample}</span>_1.fastq <span class="dt">\</span></span>
+<span id="cb4-33"><a href="PRJNA636173.html#cb4-33" aria-hidden="true" tabindex="-1"></a>        in2=<span class="va">${fq_dir}</span>/<span class="va">${sample}</span>_2.fastq <span class="dt">\</span></span>
+<span id="cb4-34"><a href="PRJNA636173.html#cb4-34" aria-hidden="true" tabindex="-1"></a>        out1=<span class="va">${clean_dir}</span>/<span class="va">${sample}</span>_clean_1.fq.gz <span class="dt">\</span></span>
+<span id="cb4-35"><a href="PRJNA636173.html#cb4-35" aria-hidden="true" tabindex="-1"></a>        out2=<span class="va">${clean_dir}</span>/<span class="va">${sample}</span>_clean_2.fq.gz <span class="dt">\</span></span>
+<span id="cb4-36"><a href="PRJNA636173.html#cb4-36" aria-hidden="true" tabindex="-1"></a>        ref=<span class="va">${adapters}</span> <span class="dt">\</span></span>
+<span id="cb4-37"><a href="PRJNA636173.html#cb4-37" aria-hidden="true" tabindex="-1"></a>        ktrim=r k=21 mink=11 <span class="dt">\</span></span>
+<span id="cb4-38"><a href="PRJNA636173.html#cb4-38" aria-hidden="true" tabindex="-1"></a>        qtrim=r trimq=10 maq=5 minlength=<span class="va">$minlength</span></span>
+<span id="cb4-39"><a href="PRJNA636173.html#cb4-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-40"><a href="PRJNA636173.html#cb4-40" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> <span class="va">$samples</span></span></code></pre></div>
+</div>
+</div>
+<div id="alignment-vs-complete-genome-with-star" class="section level2 hasAnchor" number="5.3">
+<h2><span class="header-section-number">5.3</span> Alignment vs complete genome with STAR<a href="PRJNA636173.html#alignment-vs-complete-genome-with-star" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>We are going to align versus the <strong>complete genome</strong>, not the transcriptome (option used in the original paper). The reason is that we want to do allways the same process and for <em>A. thaliana</em> there are not a good transcriptome available (for <em>C. elegans</em> I don’t know yet).</p>
+<ul>
+<li>Building index (careful with this!):</li>
+</ul>
+<p><em>Interactively</em> in garnatxa (The process is high memory consuming and in that way can’t finish the process)</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="PRJNA636173.html#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">path\to\STAR</span> <span class="at">--runThreadN</span> 6 <span class="dt">\</span></span>
+<span id="cb5-2"><a href="PRJNA636173.html#cb5-2" aria-hidden="true" tabindex="-1"></a>--runMode genomeGenerate <span class="dt">\</span></span>
+<span id="cb5-3"><a href="PRJNA636173.html#cb5-3" aria-hidden="true" tabindex="-1"></a>--genomeDir genome_hg19_index <span class="dt">\</span></span>
+<span id="cb5-4"><a href="PRJNA636173.html#cb5-4" aria-hidden="true" tabindex="-1"></a>--genomeFastaFiles /storage/evsysvir/TimeSeries/references/genome_hg19_index/GRCh37.primary_assembly.genome.fa <span class="dt">\</span></span>
+<span id="cb5-5"><a href="PRJNA636173.html#cb5-5" aria-hidden="true" tabindex="-1"></a>--sjdbGTFfile /storage/evsysvir/TimeSeries/references/genome_hg19_index/gencode.v39lift37.annotation.gtf <span class="dt">\</span></span>
+<span id="cb5-6"><a href="PRJNA636173.html#cb5-6" aria-hidden="true" tabindex="-1"></a>--sjdbOverhang 50 <span class="co"># readlength-1</span></span></code></pre></div>
+<p>Necessary to run in SLURM:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb6-1"><a href="PRJNA636173.html#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb6-2"><a href="PRJNA636173.html#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#generateIndex2STAR.sh</span></span>
+<span id="cb6-3"><a href="PRJNA636173.html#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=generateIndex2STAR </span></span>
+<span id="cb6-4"><a href="PRJNA636173.html#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=long</span></span>
+<span id="cb6-5"><a href="PRJNA636173.html#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1 </span></span>
+<span id="cb6-6"><a href="PRJNA636173.html#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=32 </span></span>
+<span id="cb6-7"><a href="PRJNA636173.html#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=200gb </span></span>
+<span id="cb6-8"><a href="PRJNA636173.html#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=1-00:00:00 </span></span>
+<span id="cb6-9"><a href="PRJNA636173.html#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=generateIndex2STAR_%j.log </span></span>
+<span id="cb6-10"><a href="PRJNA636173.html#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="PRJNA636173.html#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;&lt; &quot;generateIndex2STAR&quot;</span></span>
+<span id="cb6-12"><a href="PRJNA636173.html#cb6-12" aria-hidden="true" tabindex="-1"></a><span class="st">In some cases (large genomes), we need a lot of memory to generate the index </span></span>
+<span id="cb6-13"><a href="PRJNA636173.html#cb6-13" aria-hidden="true" tabindex="-1"></a><span class="st">needed to align with STAR.</span></span>
+<span id="cb6-14"><a href="PRJNA636173.html#cb6-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-15"><a href="PRJNA636173.html#cb6-15" aria-hidden="true" tabindex="-1"></a><span class="st">Use:</span></span>
+<span id="cb6-16"><a href="PRJNA636173.html#cb6-16" aria-hidden="true" tabindex="-1"></a><span class="st">arg1 = path to genome.fasta</span></span>
+<span id="cb6-17"><a href="PRJNA636173.html#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="st">arg2 = path to genome.gtf</span></span>
+<span id="cb6-18"><a href="PRJNA636173.html#cb6-18" aria-hidden="true" tabindex="-1"></a><span class="st">arg3 = max(readlength) - 1</span></span>
+<span id="cb6-19"><a href="PRJNA636173.html#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="st">arg4 = path to the output directory</span></span>
+<span id="cb6-20"><a href="PRJNA636173.html#cb6-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-21"><a href="PRJNA636173.html#cb6-21" aria-hidden="true" tabindex="-1"></a><span class="op">generateIndex2STAR</span></span>
+<span id="cb6-22"><a href="PRJNA636173.html#cb6-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-23"><a href="PRJNA636173.html#cb6-23" aria-hidden="true" tabindex="-1"></a><span class="va">genomeFasta</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb6-24"><a href="PRJNA636173.html#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="va">genomeGTF</span><span class="op">=</span><span class="va">$2</span></span>
+<span id="cb6-25"><a href="PRJNA636173.html#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="va">length</span><span class="op">=</span><span class="va">$3</span></span>
+<span id="cb6-26"><a href="PRJNA636173.html#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="va">outDir</span><span class="op">=</span><span class="va">$4</span></span>
+<span id="cb6-27"><a href="PRJNA636173.html#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="PRJNA636173.html#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="va">STAR</span><span class="op">=</span><span class="st">&quot;/home/maolu/programs/STAR-2.7.9a/bin/Linux_x86_64/STAR&quot;</span></span>
+<span id="cb6-29"><a href="PRJNA636173.html#cb6-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-30"><a href="PRJNA636173.html#cb6-30" aria-hidden="true" tabindex="-1"></a><span class="va">$STAR</span> <span class="at">--runThreadN</span> 32 <span class="dt">\</span></span>
+<span id="cb6-31"><a href="PRJNA636173.html#cb6-31" aria-hidden="true" tabindex="-1"></a>--runMode genomeGenerate <span class="dt">\</span></span>
+<span id="cb6-32"><a href="PRJNA636173.html#cb6-32" aria-hidden="true" tabindex="-1"></a>--genomeDir <span class="va">$outDir</span> <span class="dt">\</span></span>
+<span id="cb6-33"><a href="PRJNA636173.html#cb6-33" aria-hidden="true" tabindex="-1"></a>--genomeFastaFiles <span class="va">$genomeFasta</span> <span class="dt">\</span></span>
+<span id="cb6-34"><a href="PRJNA636173.html#cb6-34" aria-hidden="true" tabindex="-1"></a>--sjdbGTFfile <span class="va">$genomeGTF</span> <span class="dt">\</span></span>
+<span id="cb6-35"><a href="PRJNA636173.html#cb6-35" aria-hidden="true" tabindex="-1"></a>--sjdbOverhang <span class="va">$length</span></span></code></pre></div>
+<ul>
+<li>Alignment + markDuplicates + remove duplicates (keeping the dedup file too):</li>
+</ul>
+<p>In <em>slurm</em> as a batch</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb7-1"><a href="PRJNA636173.html#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#!/bin/bash</span></span>
+<span id="cb7-2"><a href="PRJNA636173.html#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co">#map&amp;dedup.sh</span></span>
+<span id="cb7-3"><a href="PRJNA636173.html#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --job-name=map+dedup </span></span>
+<span id="cb7-4"><a href="PRJNA636173.html#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --partition=long</span></span>
+<span id="cb7-5"><a href="PRJNA636173.html#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --ntasks=1 </span></span>
+<span id="cb7-6"><a href="PRJNA636173.html#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --cpus-per-task=32 </span></span>
+<span id="cb7-7"><a href="PRJNA636173.html#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --mem=100gb </span></span>
+<span id="cb7-8"><a href="PRJNA636173.html#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --time=10-00:00:00 </span></span>
+<span id="cb7-9"><a href="PRJNA636173.html#cb7-9" aria-hidden="true" tabindex="-1"></a><span class="co">#SBATCH --output=map+dedup_%j.log </span></span>
+<span id="cb7-10"><a href="PRJNA636173.html#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="PRJNA636173.html#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="op">&lt;&lt; &quot;mapdedup&quot;</span></span>
+<span id="cb7-12"><a href="PRJNA636173.html#cb7-12" aria-hidden="true" tabindex="-1"></a><span class="st">For each sample in SRR_acc_list:</span></span>
+<span id="cb7-13"><a href="PRJNA636173.html#cb7-13" aria-hidden="true" tabindex="-1"></a><span class="st">- Align paired end reads to the complete genome with STAR</span></span>
+<span id="cb7-14"><a href="PRJNA636173.html#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="st">- Mark duplicates with gatk4 (need to activate env)</span></span>
+<span id="cb7-15"><a href="PRJNA636173.html#cb7-15" aria-hidden="true" tabindex="-1"></a><span class="st">- Generate a copy of bam files without duplicates</span></span>
+<span id="cb7-16"><a href="PRJNA636173.html#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-17"><a href="PRJNA636173.html#cb7-17" aria-hidden="true" tabindex="-1"></a><span class="st">MJ</span></span>
+<span id="cb7-18"><a href="PRJNA636173.html#cb7-18" aria-hidden="true" tabindex="-1"></a><span class="st">2022/02/21</span></span>
+<span id="cb7-19"><a href="PRJNA636173.html#cb7-19" aria-hidden="true" tabindex="-1"></a><span class="op">mapdedup</span></span>
+<span id="cb7-20"><a href="PRJNA636173.html#cb7-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-21"><a href="PRJNA636173.html#cb7-21" aria-hidden="true" tabindex="-1"></a><span class="va">samples</span><span class="op">=</span><span class="va">$1</span></span>
+<span id="cb7-22"><a href="PRJNA636173.html#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="va">dir_genome</span><span class="op">=</span><span class="st">&quot;/storage/evsysvir/TimeSeries/references/genome_hg19_index&quot;</span></span>
+<span id="cb7-23"><a href="PRJNA636173.html#cb7-23" aria-hidden="true" tabindex="-1"></a><span class="va">clean_dir</span><span class="op">=</span><span class="st">&quot;/storage/evsysvir/TimeSeries/PRJNA636173/clean_data&quot;</span></span>
+<span id="cb7-24"><a href="PRJNA636173.html#cb7-24" aria-hidden="true" tabindex="-1"></a><span class="va">dir_alignments</span><span class="op">=</span><span class="st">&quot;/storage/evsysvir/TimeSeries/PRJNA636173/alignments&quot;</span></span>
+<span id="cb7-25"><a href="PRJNA636173.html#cb7-25" aria-hidden="true" tabindex="-1"></a><span class="va">dir_dedup</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${dir_alignments}</span><span class="st">/dedup&quot;</span></span>
+<span id="cb7-26"><a href="PRJNA636173.html#cb7-26" aria-hidden="true" tabindex="-1"></a><span class="va">dir_nodup</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${dir_alignments}</span><span class="st">/nodup&quot;</span></span>
+<span id="cb7-27"><a href="PRJNA636173.html#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="va">dir_dedup_metrics</span><span class="op">=</span><span class="st">&quot;</span><span class="va">${dir_alignments}</span><span class="st">/metrics&quot;</span></span>
+<span id="cb7-28"><a href="PRJNA636173.html#cb7-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-29"><a href="PRJNA636173.html#cb7-29" aria-hidden="true" tabindex="-1"></a><span class="va">gatk</span><span class="op">=</span><span class="st">&quot;/home/maolu/programs/gatk-4.2.2.0/gatk&quot;</span></span>
+<span id="cb7-30"><a href="PRJNA636173.html#cb7-30" aria-hidden="true" tabindex="-1"></a><span class="va">STAR</span><span class="op">=</span><span class="st">&quot;/home/maolu/programs/STAR-2.7.9a/bin/Linux_x86_64/STAR&quot;</span></span>
+<span id="cb7-31"><a href="PRJNA636173.html#cb7-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-32"><a href="PRJNA636173.html#cb7-32" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> <span class="bu">read</span> <span class="va">sample</span></span>
+<span id="cb7-33"><a href="PRJNA636173.html#cb7-33" aria-hidden="true" tabindex="-1"></a><span class="cf">do</span></span>
+<span id="cb7-34"><a href="PRJNA636173.html#cb7-34" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Align vs complete genome hg19</span></span>
+<span id="cb7-35"><a href="PRJNA636173.html#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="va">$STAR</span> <span class="at">--runThreadN</span> 12 <span class="dt">\</span></span>
+<span id="cb7-36"><a href="PRJNA636173.html#cb7-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">--genomeDir</span> <span class="va">$dir_genome</span> <span class="dt">\</span></span>
+<span id="cb7-37"><a href="PRJNA636173.html#cb7-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">--readFilesCommand</span> gunzip <span class="at">-c</span><span class="dt">\</span></span>
+<span id="cb7-38"><a href="PRJNA636173.html#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">--readFilesIn</span> <span class="va">${clean_dir}</span>/<span class="va">${sample}</span>_clean_1.fq.gz <span class="va">${clean_dir}</span>/<span class="va">${sample}</span>_clean_2.fq.gz <span class="dt">\</span></span>
+<span id="cb7-39"><a href="PRJNA636173.html#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">--outFileNamePrefix</span> <span class="va">${dir_alignments}</span>/<span class="va">${sample}</span>_ <span class="dt">\</span></span>
+<span id="cb7-40"><a href="PRJNA636173.html#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">--outSAMtype</span> BAM SortedByCoordinate <span class="dt">\</span></span>
+<span id="cb7-41"><a href="PRJNA636173.html#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">--outSAMunmapped</span> Within <span class="dt">\</span></span>
+<span id="cb7-42"><a href="PRJNA636173.html#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">--outSAMattributes</span> NH HI NM MD AS</span>
+<span id="cb7-43"><a href="PRJNA636173.html#cb7-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-44"><a href="PRJNA636173.html#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Mark duplicates</span></span>
+<span id="cb7-45"><a href="PRJNA636173.html#cb7-45" aria-hidden="true" tabindex="-1"></a>    <span class="va">$gatk</span> MarkDuplicates <span class="dt">\</span></span>
+<span id="cb7-46"><a href="PRJNA636173.html#cb7-46" aria-hidden="true" tabindex="-1"></a>    <span class="at">-I</span> <span class="va">${dir_alignments}</span>/<span class="va">${sample}</span>_Aligned.sortedByCoord.out.bam <span class="dt">\</span></span>
+<span id="cb7-47"><a href="PRJNA636173.html#cb7-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">-O</span> <span class="va">${dir_dedup}</span>/<span class="va">${sample}</span>_dedup.bam <span class="dt">\</span></span>
+<span id="cb7-48"><a href="PRJNA636173.html#cb7-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">-M</span> <span class="va">${dir_dedup_metrics}</span>/<span class="va">${sample}</span>_metrics.txt</span>
+<span id="cb7-49"><a href="PRJNA636173.html#cb7-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-50"><a href="PRJNA636173.html#cb7-50" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Remove duplicates</span></span>
+<span id="cb7-51"><a href="PRJNA636173.html#cb7-51" aria-hidden="true" tabindex="-1"></a>    <span class="ex">samtools</span> view <span class="at">-hbF0x400</span> <span class="va">$dir_dedup</span>/<span class="va">${sample}</span>_dedup.bam <span class="op">&gt;</span> <span class="va">$dir_nodup</span>/<span class="va">${sample}</span>_nodup.bam</span>
+<span id="cb7-52"><a href="PRJNA636173.html#cb7-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-53"><a href="PRJNA636173.html#cb7-53" aria-hidden="true" tabindex="-1"></a><span class="cf">done</span> <span class="op">&lt;</span> <span class="va">$samples</span></span></code></pre></div>
+<hr />
+<p>We performed the next steps in R</p>
+<p>The project is named as ‘prjna636173.Rproj.’ In this project</p>
+<hr />
+</div>
+<div id="from-read-counts-matrix" class="section level2 hasAnchor" number="5.4">
+<h2><span class="header-section-number">5.4</span> From read counts matrix<a href="PRJNA636173.html#from-read-counts-matrix" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<div id="exploration-of-samples" class="section level3 hasAnchor" number="5.4.1">
+<h3><span class="header-section-number">5.4.1</span> Exploration of samples<a href="PRJNA636173.html#exploration-of-samples" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<ul>
+<li>Dimensions of raw counts matrix: 63357 x 36</li>
+</ul>
+<p>Filter genes conditions: <code>rowSums(edgeR::cpm(cts)&gt;1) &gt;= 2</code></p>
+<ul>
+<li>Dimensions of filtered raw counts: 16120 x 36</li>
+</ul>
+<p><img src="images/readCounts_byGene_rawVsFiltered.png" /></p>
+</div>
+<div id="visualization-of-different-transformations-of-the-filtered-raw-counts" class="section level3 hasAnchor" number="5.4.2">
+<h3><span class="header-section-number">5.4.2</span> Visualization of different transformations of the filtered raw counts<a href="PRJNA636173.html#visualization-of-different-transformations-of-the-filtered-raw-counts" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><em>Bottom methods (variance stabilizing method and regularized-logarithm transformation) are transformations for count data that stabilize the variance across the means. The transformed-data becomes approximately homoskedastic, and can be used directly for computing distances between samples and making PCA plots</em></p>
+<p><img src="images/transformationCountsFiltered.png" />
+<img src="images/transformationCountsFiltered_boxplot.png" /></p>
+</div>
+<div id="samples-distances" class="section level3 hasAnchor" number="5.4.3">
+<h3><span class="header-section-number">5.4.3</span> Samples distances<a href="PRJNA636173.html#samples-distances" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p>We show redundant but maybe useful information to discuss which methods we prefer.</p>
+<div id="heatmap" class="section level4 hasAnchor" number="5.4.3.1">
+<h4><span class="header-section-number">5.4.3.1</span> Heatmap<a href="PRJNA636173.html#heatmap" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<ul>
+<li><b> DISTANCES </b></li>
+</ul>
+<div class="figure">
+<img src="images/heatmap_sampleDist_vst.png" alt="" />
+<p class="caption">“Using the distance function on the vst-transformed data”</p>
+</div>
+<div class="figure">
+<img src="images/heatmap_sampleDist_Rlog.png" alt="" />
+<p class="caption">“Using the distance function on the rlog-transformed data”</p>
+</div>
+<ul>
+<li><b> CORRELATIONS </b> (<em>Spearman method</em>)</li>
+</ul>
+<div class="figure">
+<img src="images/heatmap_sampleCorr_Vst.png" alt="" />
+<p class="caption">“Using the corr function on the vst-transformed data”</p>
+</div>
+<div class="figure">
+<img src="images/heatmap_sampleCorr_Rlog.png" alt="" />
+<p class="caption">“Using the corr function on the rlog-transformed data”</p>
+</div>
+</div>
+<div id="pca-of-samples" class="section level4 hasAnchor" number="5.4.3.2">
+<h4><span class="header-section-number">5.4.3.2</span> PCA of samples<a href="PRJNA636173.html#pca-of-samples" class="anchor-section" aria-label="Anchor link to header"></a></h4>
+<div class="figure">
+<img src="images/pca_samples_vst.png" alt="" />
+<p class="caption">“PCA on vst-transformed data</p>
+</div>
+<div class="figure">
+<img src="images/pca_samples_rlog.png" alt="" />
+<p class="caption">“PCA on rlog-transformed data</p>
+</div>
+</div>
+</div>
+</div>
+<div id="deg-analysis-1" class="section level2 hasAnchor" number="5.5">
+<h2><span class="header-section-number">5.5</span> DEG analysis<a href="PRJNA636173.html#deg-analysis-1" class="anchor-section" aria-label="Anchor link to header"></a></h2>
+<p>p.adj.cutoff = 0.05
+lfoldchange.cutoff = 1</p>
+<div id="wald-test" class="section level3 hasAnchor" number="5.5.1">
+<h3><span class="header-section-number">5.5.1</span> WALD test<a href="PRJNA636173.html#wald-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<p><b> Results </b></p>
+<p>__ Without been restrictive (alpha = 0.1, and no limit to the logfoldchange)_</p>
+<blockquote>
+<p>out of 16120 with nonzero total read count
+adjusted p-value &lt; 0.1
+LFC &gt; 0 (up) : 3611, 22%
+LFC &lt; 0 (down) : 3867, 24%
+outliers [1] : 0, 0%
+low counts [2] : 0, 0%
+(mean count &lt; 3)</p>
+</blockquote>
+</div>
+<div id="lrt-test" class="section level3 hasAnchor" number="5.5.2">
+<h3><span class="header-section-number">5.5.2</span> LRT test<a href="PRJNA636173.html#lrt-test" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+
+</div>
+</div>
+</div>
+<h3>References<a href="references.html#references" class="anchor-section" aria-label="Anchor link to header"></a></h3>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-Banerjee2021" class="csl-entry">
+Banerjee, Arinjay, Nader El-Sayes, Patrick Budylowski, Rajesh Abraham Jacob, Daniel Richard, Hassaan Maan, Jennifer A. Aguiar, et al. 2021. <span>“<span class="nocase">Experimental and natural evidence of SARS-CoV-2-infection-induced activation of type I interferon responses</span>.”</span> <em>iScience</em> 24 (5): 102477. <a href="https://doi.org/10.1016/j.isci.2021.102477">https://doi.org/10.1016/j.isci.2021.102477</a>.
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="deg-analysis.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="references.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"whatsapp": false,
+"all": ["facebook", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/USERNAME/REPO/edit/BRANCH/04-prjna636173.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"view": {
+"link": null,
+"text": null
+},
+"download": ["_main.pdf", "_main.epub"],
+"search": {
+"engine": "fuse",
+"options": null
+},
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
